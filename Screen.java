@@ -1,34 +1,41 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 public class Screen extends JFrame
 {
-    private BufferedImage canvas = new BufferedImage(Control.SIZE,Control.SIZE,BufferedImage.TYPE_INT_BGR);
+    private BufferedImage canvas = new BufferedImage(Constant.SIZE,Constant.SIZE,BufferedImage.TYPE_INT_BGR);
+    private boolean reset = false;
 
     Screen()
     {
         setResizable(false);
         canvas.createGraphics();
         canvas.getGraphics();
-        for (int i = 0; i < Control.SIZE ; i++)
+        for (int i = 0; i < Constant.SIZE ; i++)
         {
-            for (int j = 0; j < Control.SIZE; j++)
+            for (int j = 0; j < Constant.SIZE; j++)
             {
                 canvas.setRGB(j, i, 0);
             }
         }
-        setSize(Control.SIZE,Control.SIZE);
-        setPreferredSize(new Dimension(Control.SIZE,Control.SIZE));
+        setSize(Constant.SIZE,Constant.SIZE);
+        setPreferredSize(new Dimension(Constant.SIZE,Constant.SIZE));
         pack();
         getContentPane().add(new JLabel(new ImageIcon(canvas)));
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        updateFilled();
+        // if (reset)
+        //     updateFilled();
+        // reset = true;
+
     }
-    private void updateFilled()
+    public void updateFilled()
     {
-        Point[][] field = Control.field;
+        //Point[][] field = (Point[][])SimulationLauncher.copy2DArray(SimulationLauncher.field);
+        Point[][] field = SimulationLauncher.field;
+        System.out.println(Arrays.deepToString(field));
         for (int i = 0; i < field.length; i++)
         {
             for (int j = 0; j < field[i].length; j++)

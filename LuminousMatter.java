@@ -5,8 +5,7 @@ public class LuminousMatter implements Particle, Mass, Runnable
     private int x;
     private int y;
 
-    private double velocity;
-    private double angle;
+    private Vector velocity;
 
     //constructors
     LuminousMatter()
@@ -51,9 +50,9 @@ public class LuminousMatter implements Particle, Mass, Runnable
     //utility, non defined values as getters
     public Vector velocity()
     {
-        /*Vf=Vi+at, where velocity is updated every.1 seconds and in general form Vf = integral(A*dt,t1,t2) t2-t1=.1
+        /*Vf=Vi+at, where velocity is updated every T seconds and in general form Vf = integral(A*dt,t1,t2) t2-t1=.1
          */
-        return new Vector(velocity + acceleration().getValue()* Control.T,acceleration().getAngle());
+        return new Vector(velocity.getValue() + acceleration().getValue()* Constant.T, Math.atan((velocity.Y()+acceleration().Y()*Constant.T)/(velocity.X()+acceleration().X()*Constant.T)));
     }
     public Vector acceleration()
     {
@@ -71,13 +70,13 @@ public class LuminousMatter implements Particle, Mass, Runnable
     public Vector getForce()
     {
         double force = 0.0;
-        for (int i = 0; i < Control.particles.length; i++)
+        for (int i = 0; i < SimulationLauncher.particles.length; i++)
         {
-            if (Control.particles[i] instanceof Mass)
+            if (SimulationLauncher.particles[i] instanceof Mass)
             {
-                force += Control.G * Control.particles[i].getMass() * this.mass / //Gmm
+                force += Constant.G * SimulationLauncher.particles[i].getMass() * this.mass / //Gmm
                         Math.pow(
-                                Control.radius(this.getX(), this.getY(), Control.particles[i].getX(), Control.particles[i].getY())//pythagorean theorem
+                                SimulationLauncher.radius(this.getX(), this.getY(), SimulationLauncher.particles[i].getX(), SimulationLauncher.particles[i].getY())//pythagorean theorem
                                 , 2);//r^(2)
             }
         }
@@ -85,12 +84,12 @@ public class LuminousMatter implements Particle, Mass, Runnable
     }
     public void run()
     {
-        setPosition(Control.X(),Control.Y());
+        setPosition(SimulationLauncher.X(),SimulationLauncher.Y());
     }
     public void changePosition()
     {
-        x += velocity*Control.T*Math.cos(velocity().getAngle());
-        y += velocity*Control.T*Math.sin(velocity().getAngle());
+        x += velocity.X()*Constant.T;
+        y += velocity.Y()*Constant.T;
     }
     public void start()
     {

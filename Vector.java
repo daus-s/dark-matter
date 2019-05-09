@@ -38,4 +38,16 @@ public class Vector
     {
         return this.value/divisor;
     }
+    public String toString()
+    {
+        return (""+this.value).substring(0,4)+"@"+(""+this.angle).substring(0,5);
+    }
+    public double X()
+    {
+        return value*Math.cos(angle/360*2*Math.PI);
+    }
+    public double Y()
+    {
+        return value*Math.sin(angle/360*2*Math.PI);
+    }
 }

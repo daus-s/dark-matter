@@ -21,4 +21,5 @@ public interface Particle
     Vector getForce();
 
     void start();
+    String toString();
 }

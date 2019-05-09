@@ -5,7 +5,7 @@ public class DarkMatter implements Particle, Mass, Runnable
     private int x;
     private int y;
 
-    private double velocity;
+    private Vector velocity;
 
     //constructors
     DarkMatter()
@@ -52,7 +52,7 @@ public class DarkMatter implements Particle, Mass, Runnable
     {
         /*Vf=Vi+at, where velocity is updated every.1 seconds and in general form Vf = integral(A*dt,t1,t2) t2-t1=.1
          */
-        return new Vector(velocity + acceleration().getValue()* Control.T,acceleration().getAngle());
+        return new Vector(velocity.getValue() + acceleration().getValue()* Constant.T, Math.atan((velocity.Y()+acceleration().Y())/(velocity.X()+acceleration().X())));
     }
     public Vector acceleration()
     {
@@ -72,33 +72,33 @@ public class DarkMatter implements Particle, Mass, Runnable
         double forceX = 0.0;
         double forceY = 0.0;
 
-        for (int i = 0; i < Control.particles.length; i++)
+        for (int i = 0; i < SimulationLauncher.particles.length; i++)
         {
-            double angle = this.y-Control.particles[i].getY()/this.x-Control.particles[i].getX();
-            if (Control.particles[i] instanceof Mass)
+            double angle = this.y-SimulationLauncher.particles[i].getY()/this.x-SimulationLauncher.particles[i].getX();
+            if (SimulationLauncher.particles[i] instanceof Mass)
             {
-                double force = Control.G * Control.particles[i].getMass() * this.mass / //Gmm
+                double force = Constant.G * SimulationLauncher.particles[i].getMass() * this.mass / //Gmm
                         Math.pow(
-                                Control.radius(this.getX(), this.getY(), Control.particles[i].getX(), Control.particles[i].getY())//pythagorean theorem
+                                SimulationLauncher.radius(this.getX(), this.getY(), SimulationLauncher.particles[i].getX(), SimulationLauncher.particles[i].getY())//pythagorean theorem
                                 , 2);//r^(2)
                 forceX += force * Math.cos(Math.atan(angle));
                 forceY += force * Math.sin(Math.atan(angle));
             }
         }
-        return new Vector(Control.pythagoreanTheorem(forceX,forceY),Math.atan(forceY/forceX));
+        return new Vector(SimulationLauncher.pythagoreanTheorem(forceX,forceY), Math.atan(forceY/forceX));
     }
 
     public void run()
     {
-        setPosition(Control.X(),Control.Y());
-        Control.field[this.y][this.x].setParticle(this);
-        Control.field[this.y][this.x].setFilled();
+        setPosition(SimulationLauncher.X,SimulationLauncher.Y);
+        SimulationLauncher.field[this.y][this.x].setParticle(this);
+        SimulationLauncher.field[this.y][this.x].setFilled();
     }
 
     public void changePosition()
     {
-        x += velocity().getValue()*Control.T*Math.cos(velocity().getAngle());
-        y += velocity*Control.T;
+        x += velocity.X();
+        y += velocity.Y();
     }
 
     public void start()

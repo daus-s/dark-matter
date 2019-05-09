@@ -14,9 +14,9 @@ public class Point
     {
         x = 0;
         y = 0;
-        for (int i = 0; i < Control.particles.length; i++)
+        for (int i = 0; i < SimulationLauncher.particles.length; i++)
         {
-            if (Control.particles[i].getX() == this.x && Control.particles[i].getY() == this.y)
+            if (SimulationLauncher.particles[i].getX() == this.x && SimulationLauncher.particles[i].getY() == this.y)
             {
                 filled = true;
                 return;
@@ -28,12 +28,12 @@ public class Point
     {
         this.x = x;
         this.y = y;
-        for (int i = 0; i < Control.particles.length; i++)
+        for (int i = 0; i < SimulationLauncher.particles.length; i++)
         {
-            if (Control.particles[i].getX() == this.x && Control.particles[i].getY() == this.y)
+            if (SimulationLauncher.particles[i].getX() == this.x && SimulationLauncher.particles[i].getY() == this.y)
             {
                 filled = true;
-                particle = Control.particles[i];
+                particle = SimulationLauncher.particles[i];
                 return;
             }
         }
@@ -80,9 +80,9 @@ public class Point
     }
     public void setFilled()
     {
-        for (int i = 0; i < Control.particles.length; i++)
+        for (int i = 0; i < SimulationLauncher.particles.length; i++)
         {
-            if (Control.particles[i].getX() == this.x && Control.particles[i].getY() == this.y)
+            if (SimulationLauncher.particles[i].getX() == this.x && SimulationLauncher.particles[i].getY() == this.y)
             {
                 filled = true;
                 return;
